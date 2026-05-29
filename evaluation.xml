@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Evaluation suite for clockify-mcp-server.
+
+  Each <qa_pair> is independent, read-only, and bounded to a fixed historical
+  window so answers stay stable. The actual <answer> values are placeholders
+  (e.g. <YOUR_*>) and must be filled in by whoever runs the harness against
+  their own Clockify workspace by solving each task once and pinning the result.
+
+  Run with:
+    python scripts/evaluation.py -t stdio -c node -a dist/index.js \
+      -e CLOCKIFY_API_KEY=$CLOCKIFY_API_KEY evaluation.xml
+-->
+<evaluation>
+  <qa_pair>
+    <question>List all workspaces accessible to the configured API key. Sort them alphabetically by name and provide the name of the FIRST workspace in that order.</question>
+    <answer>&lt;YOUR_FIRST_WORKSPACE_NAME&gt;</answer>
+  </qa_pair>
+
+  <qa_pair>
+    <question>Get the profile of the user whose API key is configured. Return ONLY their email address.</question>
+    <answer>&lt;YOUR_EMAIL&gt;</answer>
+  </qa_pair>
+
+  <qa_pair>
+    <question>In your default workspace, find all ACTIVE (non-archived) projects. Among them, which project has the most members assigned? Return only the project name. If there is a tie, return the name that comes first alphabetically.</question>
+    <answer>&lt;PROJECT_NAME&gt;</answer>
+  </qa_pair>
+
+  <qa_pair>
+    <question>For the calendar month of January 2025 (UTC), generate a Detailed report covering ALL users in your default workspace. Report the total tracked time in hours, rounded DOWN to the nearest whole hour. Answer with the number only (no units).</question>
+    <answer>&lt;TOTAL_HOURS_JAN_2025&gt;</answer>
+  </qa_pair>
+
+  <qa_pair>
+    <question>For the calendar week starting Monday 2025-03-03 (UTC) through Sunday 2025-03-09 (UTC), generate a Summary report grouped by USER. Which user logged the most billable time? Return their full display name.</question>
+    <answer>&lt;USER_DISPLAY_NAME&gt;</answer>
+  </qa_pair>
+
+  <qa_pair>
+    <question>For the calendar week starting Monday 2025-03-03 (UTC) through Sunday 2025-03-09 (UTC), generate a Summary report grouped by PROJECT, then by USER. Which single (project, user) combination has the highest total duration? Answer in the exact format "PROJECT_NAME / USER_NAME".</question>
+    <answer>&lt;PROJECT_NAME / USER_NAME&gt;</answer>
+  </qa_pair>
+
+  <qa_pair>
+    <question>For Q1 2025 (2025-01-01 through 2025-03-31, UTC), find the client whose projects collectively had the highest total tracked time. Return the client name. If no client is assigned, return "(no client)".</question>
+    <answer>&lt;CLIENT_NAME&gt;</answer>
+  </qa_pair>
+
+  <qa_pair>
+    <question>Across all workspace users, how many had at least one time entry logged in the calendar month of February 2025 (UTC)? Answer with the integer only.</question>
+    <answer>&lt;ACTIVE_USER_COUNT_FEB_2025&gt;</answer>
+  </qa_pair>
+
+  <qa_pair>
+    <question>Generate a Detailed report for the configured user's OWN entries between 2025-04-01T00:00:00Z and 2025-04-08T00:00:00Z. Among those entries, what is the description of the LONGEST single time entry? Return the description string only.</question>
+    <answer>&lt;LONGEST_ENTRY_DESCRIPTION&gt;</answer>
+  </qa_pair>
+
+  <qa_pair>
+    <question>For your default workspace, list all tags. Among ACTIVE (non-archived) tags, which one has the alphabetically LAST name (case-insensitive, Z-most)? Return the tag name.</question>
+    <answer>&lt;LAST_TAG_NAME&gt;</answer>
+  </qa_pair>
+</evaluation>
