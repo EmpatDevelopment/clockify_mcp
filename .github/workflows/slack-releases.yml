@@ -103,6 +103,9 @@ jobs:
             AUTHOR=$(jq -r ".release.author.login" "$GITHUB_EVENT_PATH")
             BODY=$(jq -r ".release.body // \"\"" "$GITHUB_EVENT_PATH" | head -c 4000)
             RFOOTER=$(printf "\n<%s|Release %s> · %s · by %s" "$URL" "$TAG" "$REPO" "$AUTHOR")
+            if printf '%s' "${NAME:-} ${BODY:-}" | grep -qiF '[skip-ai-releases]'; then
+              echo "release opted out via [skip-ai-releases] — not posting"; exit 0
+            fi
             OUT=""
             if [ -f "$PROMPT_FILE" ]; then
               USERMSG=$(printf 'Repo: %s\nGitHub Release: %s (тег %s), автор %s\n\n--- Release notes ---\n%s' \
@@ -124,6 +127,10 @@ jobs:
           # ---------- merged PR ----------
           WHO="${PR_MERGER:-$PR_USER}"
           FOOTER=$(printf "\n<%s|PR #%s> · %s · merged by %s" "$PR_URL" "$PR_NUM" "$REPO" "$WHO")
+          # Manual opt-out: put [skip-ai-releases] anywhere in the PR title/body to suppress the post entirely.
+          if printf '%s' "${PR_TITLE:-} ${PR_BODY:-}" | grep -qiF '[skip-ai-releases]'; then
+            echo "PR #$PR_NUM opted out via [skip-ai-releases] — not posting"; exit 0
+          fi
           OUT=""
           if [ -f "$PROMPT_FILE" ]; then
             USERMSG=$(printf 'Repo: %s\nPR #%s: %s\nMerged by: %s\n\n--- PR description ---\n%s' \
